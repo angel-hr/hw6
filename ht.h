@@ -302,6 +302,7 @@ HashTable<K,V,Prober,Hash,KEqual>::HashTable(
     for (unsigned int i =0; i < CAPACITIES[mIndex_]; i++){
         table_.push_back(nullptr);
     }
+    itemcount_ = 0;
 }
 
 // To be completed
