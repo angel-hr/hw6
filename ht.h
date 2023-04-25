@@ -352,23 +352,19 @@ void HashTable<K,V,Prober,Hash,KEqual>::insert(const ItemType& p)
 
     HashItem* current = internalFind(p.first);
     if (current != nullptr){
-        if (current->deleted == false){
-           current->item.second = p.second; 
-        }
-
+        if (current->deleted == false) current->item.second = p.second; 
         return;
     }
     current = new HashItem(p);
 
-    
     HASH_INDEX_T index = hash_(p.first) % CAPACITIES[mIndex_]; //now we need to hash a location for this hashItem
     HashItem* collision = table_[index];
 
     while (collision != nullptr){ //if the hash causes a collison
         index = probe(p.first);  //then we must do probing
         if (index == npos){
+            delete current;
             throw std::logic_error("no free location found");
-            return;
         }
         collision = table_[index];
     }
